@@ -195,7 +195,7 @@ export default function App() {
       <footer className="bg-white border-t border-slate-200 py-4 pb-16 sm:pb-4 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <div>
-            Moving Leads Engine • <strong className="text-slate-700">{leads.length} Verified USA Leads (All 50 States)</strong>
+            Moving Leads For Sale (MovingLeadsForSale.Org) • <strong className="text-slate-700">{leads.length} Verified USA Leads (All 50 States)</strong>
           </div>
           <div className="flex items-center gap-2 text-slate-500">
             <span>Direct Purchase ($75):</span>
