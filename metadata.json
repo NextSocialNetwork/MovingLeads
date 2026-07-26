@@ -1,0 +1,6 @@
+{
+  "name": "Moving Leads Manager",
+  "description": "150 verified upcoming moving leads organized by ZIP code with outreach status, move dates, square footage, call scripts, and CSV export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
