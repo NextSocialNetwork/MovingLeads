@@ -26,7 +26,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({
     state: 'CA',
     zipCode: '',
     destinationCity: '',
-    destinationState: 'TX',
+    destinationState: '',
     residenceType: '2 Bed Apt' as MovingLead['residenceType'],
     sqFt: 1200,
     bedrooms: 2,
@@ -40,9 +40,16 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({
     e.preventDefault();
     if (!formData.fullName || !formData.zipCode) return;
 
+    const finalCity = formData.city.trim();
+    const finalState = formData.state.trim();
+
     const newLead: MovingLead = {
       id: `ML-${1001 + existingCount}`,
       ...formData,
+      city: finalCity,
+      state: finalState,
+      destinationCity: formData.destinationCity.trim() || finalCity,
+      destinationState: formData.destinationState.trim() || finalState,
       estimatedTruckSize: formData.sqFt > 2000 ? '24 ft Truck' : formData.sqFt > 1000 ? '16 ft Truck' : '12 ft Van',
       estimatedValue: Math.round(1000 + formData.sqFt * 1.1),
     };

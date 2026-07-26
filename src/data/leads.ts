@@ -1,6 +1,6 @@
 import { MovingLead, Priority } from '../types';
 
-export const INITIAL_LEADS: MovingLead[] = [
+const RAW_LEADS: MovingLead[] = [
   // Northeast (01000 - 19999)
   {
     id: 'ML-1001',
@@ -11,8 +11,8 @@ export const INITIAL_LEADS: MovingLead[] = [
     city: 'Boston',
     state: 'MA',
     zipCode: '02116',
-    destinationCity: 'Providence',
-    destinationState: 'RI',
+    destinationCity: 'Boston',
+    destinationState: 'MA',
     residenceType: '2 Bed Apt',
     sqFt: 1150,
     bedrooms: 2,
@@ -53,7 +53,7 @@ export const INITIAL_LEADS: MovingLead[] = [
     city: 'New York',
     state: 'NY',
     zipCode: '10023',
-    destinationCity: 'White Plains',
+    destinationCity: 'New York',
     destinationState: 'NY',
     residenceType: '3 Bed House',
     sqFt: 2100,
@@ -74,7 +74,7 @@ export const INITIAL_LEADS: MovingLead[] = [
     city: 'New York',
     state: 'NY',
     zipCode: '10003',
-    destinationCity: 'Brooklyn',
+    destinationCity: 'New York',
     destinationState: 'NY',
     residenceType: 'Studio',
     sqFt: 580,
@@ -95,8 +95,8 @@ export const INITIAL_LEADS: MovingLead[] = [
     city: 'Brooklyn',
     state: 'NY',
     zipCode: '11215',
-    destinationCity: 'Jersey City',
-    destinationState: 'NJ',
+    destinationCity: 'Brooklyn',
+    destinationState: 'NY',
     residenceType: 'Townhouse',
     sqFt: 2600,
     bedrooms: 4,
@@ -116,8 +116,8 @@ export const INITIAL_LEADS: MovingLead[] = [
     city: 'Hoboken',
     state: 'NJ',
     zipCode: '07030',
-    destinationCity: 'New York',
-    destinationState: 'NY',
+    destinationCity: 'Hoboken',
+    destinationState: 'NJ',
     residenceType: '2 Bed Apt',
     sqFt: 1050,
     bedrooms: 2,
@@ -125,7 +125,7 @@ export const INITIAL_LEADS: MovingLead[] = [
     urgency: 'Standard',
     status: 'New',
     estimatedTruckSize: '16 ft Truck',
-    notes: 'Moving across Hudson via Holland Tunnel.',
+    notes: 'Moving local within Hoboken.',
     estimatedValue: 1900
   },
   {
@@ -137,7 +137,7 @@ export const INITIAL_LEADS: MovingLead[] = [
     city: 'Philadelphia',
     state: 'PA',
     zipCode: '19103',
-    destinationCity: 'King of Prussia',
+    destinationCity: 'Philadelphia',
     destinationState: 'PA',
     residenceType: 'Condo',
     sqFt: 1350,
@@ -158,8 +158,8 @@ export const INITIAL_LEADS: MovingLead[] = [
     city: 'Pittsburgh',
     state: 'PA',
     zipCode: '15213',
-    destinationCity: 'Columbus',
-    destinationState: 'OH',
+    destinationCity: 'Pittsburgh',
+    destinationState: 'PA',
     residenceType: '2 Bed Apt',
     sqFt: 980,
     bedrooms: 2,
@@ -167,7 +167,7 @@ export const INITIAL_LEADS: MovingLead[] = [
     urgency: 'High',
     status: 'Quote Sent',
     estimatedTruckSize: '16 ft Truck',
-    notes: 'Interstate move into Ohio. Needs wardrobe boxes.',
+    notes: 'Local move in Pittsburgh. Needs wardrobe boxes.',
     estimatedValue: 2600
   },
   {
@@ -179,8 +179,8 @@ export const INITIAL_LEADS: MovingLead[] = [
     city: 'Wilmington',
     state: 'DE',
     zipCode: '19801',
-    destinationCity: 'Baltimore',
-    destinationState: 'MD',
+    destinationCity: 'Wilmington',
+    destinationState: 'DE',
     residenceType: '3 Bed House',
     sqFt: 1850,
     bedrooms: 3,
@@ -200,8 +200,8 @@ export const INITIAL_LEADS: MovingLead[] = [
     city: 'Baltimore',
     state: 'MD',
     zipCode: '21201',
-    destinationCity: 'Washington',
-    destinationState: 'DC',
+    destinationCity: 'Baltimore',
+    destinationState: 'MD',
     residenceType: '1 Bed Apt',
     sqFt: 750,
     bedrooms: 1,
@@ -1357,8 +1357,8 @@ export const INITIAL_LEADS: MovingLead[] = [
       city: loc.city,
       state: loc.state,
       zipCode: loc.zip,
-      destinationCity: destLoc.city,
-      destinationState: destLoc.state,
+      destinationCity: loc.city,
+      destinationState: loc.state,
       residenceType,
       sqFt: Math.round(sqFt),
       bedrooms,
@@ -1371,3 +1371,9 @@ export const INITIAL_LEADS: MovingLead[] = [
     };
   })
 ];
+
+export const INITIAL_LEADS: MovingLead[] = RAW_LEADS.map(lead => ({
+  ...lead,
+  destinationCity: lead.city,
+  destinationState: lead.state
+}));
