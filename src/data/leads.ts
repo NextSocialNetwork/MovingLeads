@@ -42,7 +42,7 @@ const RAW_LEADS: MovingLead[] = [
     status: 'Contacted',
     estimatedTruckSize: '12 ft Van',
     notes: 'Elevator reservation required between 9am-12pm.',
-    estimatedValue: 1200
+    estimatedValue: 1250
   },
   {
     id: 'ML-1003',
@@ -210,7 +210,7 @@ const RAW_LEADS: MovingLead[] = [
     status: 'New',
     estimatedTruckSize: '12 ft Van',
     notes: 'Has 60-inch OLED TV needing custom crate box.',
-    estimatedValue: 1150
+    estimatedValue: 1250
   },
 
   // Mid-Atlantic & Southeast (20000 - 39999)
@@ -1284,27 +1284,27 @@ const RAW_LEADS: MovingLead[] = [
       sqFt = 480 + (idx * 15) % 250;
       bedrooms = 0;
       truck = '12 ft Van';
-      baseVal = 850 + (sqFt * 0.8);
+      baseVal = 1250;
     } else if (residenceType === '1 Bed Apt') {
       sqFt = 700 + (idx * 20) % 250;
       bedrooms = 1;
       truck = '12 ft Van';
-      baseVal = 1100 + (sqFt * 0.9);
+      baseVal = 1250;
     } else if (residenceType === '2 Bed Apt' || residenceType === 'Condo') {
       sqFt = 950 + (idx * 25) % 400;
       bedrooms = 2;
       truck = '16 ft Truck';
-      baseVal = 1600 + (sqFt * 1.1);
+      baseVal = 1650;
     } else if (residenceType === 'Townhouse' || residenceType === '3 Bed House') {
       sqFt = 1600 + (idx * 35) % 800;
       bedrooms = 3;
       truck = '20 ft Truck';
-      baseVal = 2400 + (sqFt * 1.2);
+      baseVal = 2175;
     } else {
       sqFt = 2600 + (idx * 45) % 1800;
       bedrooms = 4 + (idx % 2);
       truck = '26 ft Truck';
-      baseVal = 4200 + (sqFt * 1.3);
+      baseVal = 2550;
     }
 
     // Dates for next month (August 2026)
@@ -1373,9 +1373,18 @@ const RAW_LEADS: MovingLead[] = [
 ];
 
 export const INITIAL_LEADS: MovingLead[] = RAW_LEADS.map(lead => {
-  // Map sqFt (or existing value) smoothly starting from $3,000+ base range
-  const ratio = Math.min(1, Math.max(0, (lead.sqFt - 500) / 4000));
-  const estimatedValue = Math.max(3000, 3000 + Math.round((ratio * 3000) / 25) * 25);
+  let estimatedValue = 1650;
+  if (lead.bedrooms === 1 || lead.residenceType === '1 Bed Apt' || lead.bedrooms === 0 || lead.residenceType === 'Studio') {
+    estimatedValue = 1250;
+  } else if (lead.bedrooms === 2 || lead.residenceType === '2 Bed Apt') {
+    estimatedValue = 1650;
+  } else if (lead.bedrooms === 3 || lead.residenceType === '3 Bed House') {
+    estimatedValue = 2175;
+  } else if (lead.bedrooms >= 4 || lead.residenceType === '4+ Bed House') {
+    estimatedValue = 2550;
+  } else {
+    estimatedValue = lead.bedrooms <= 1 ? 1250 : lead.bedrooms === 2 ? 1650 : lead.bedrooms === 3 ? 2175 : 2550;
+  }
 
   return {
     ...lead,

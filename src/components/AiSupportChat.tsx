@@ -43,7 +43,7 @@ const getFallbackAnswer = (question: string): string => {
     return '💳 **How to Purchase:**\n1. Click any **Cash App Purchase ($75)** button on the site.\n2. Complete the short purchase form with your First Name, Last Name, Email, and Phone Number.\n3. Click **Submit Info & Pay $75 via Cash App**.\n4. Complete your $75 payment to **$Movers312** on Cash App.\n5. Your leads will be emailed to you within 24 to 48 hours!';
   }
   if (q.includes('details') || q.includes('include') || q.includes('what') || q.includes('data')) {
-    return '📋 **Lead Information Included:**\nEach verified lead includes:\n- Full Name & Contact Phone / Email\n- Origin City, State & ZIP Code\n- Destination City & State\n- Residence Type & Square Footage (sq. ft.)\n- Move Date & Urgency Level\n- Estimated Job Value ($3,000+ Average)\n- Specialized Moving Notes & Truck Size Estimates';
+    return '📋 **Lead Information Included:**\nEach verified lead includes:\n- Full Name & Contact Phone / Email\n- Origin City, State & ZIP Code\n- Destination City & State\n- Residence Type & Square Footage (sq. ft.)\n- Move Date & Urgency Level\n- Estimated Job Value ($1,250 - $2,550+ depending on bedroom count)\n- Specialized Moving Notes & Truck Size Estimates';
   }
   if (q.includes('filter') || q.includes('zip') || q.includes('state') || q.includes('search')) {
     return '🔍 **Filtering & Search Capabilities:**\nYou can filter the dataset instantly using the Filters Bar at the top of the table:\n- Filter by State or City\n- Search specific ZIP codes or customer names\n- Filter by Urgency (Urgent, High, Standard) or Residence Type\n- View geographic concentration using the ZIP Clusters view!';

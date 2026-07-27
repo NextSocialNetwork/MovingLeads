@@ -51,7 +51,13 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({
       destinationCity: formData.destinationCity.trim() || finalCity,
       destinationState: formData.destinationState.trim() || finalState,
       estimatedTruckSize: formData.sqFt > 2000 ? '24 ft Truck' : formData.sqFt > 1000 ? '16 ft Truck' : '12 ft Van',
-      estimatedValue: Math.max(3000, Math.round(3000 + (Math.min(1, Math.max(0, (formData.sqFt - 500) / 4000)) * 2000))),
+      estimatedValue: (formData.bedrooms === 1 || formData.residenceType === '1 Bed Apt' || formData.bedrooms === 0 || formData.residenceType === 'Studio')
+        ? 1250
+        : (formData.bedrooms === 2 || formData.residenceType === '2 Bed Apt')
+        ? 1650
+        : (formData.bedrooms === 3 || formData.residenceType === '3 Bed House')
+        ? 2175
+        : 2550,
     };
 
     onAddLead(newLead);

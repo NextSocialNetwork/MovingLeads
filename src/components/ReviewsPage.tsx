@@ -168,12 +168,12 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ onOpenPurchaseModal })
           </div>
 
           <div className="bg-slate-800/60 border border-slate-700/60 p-4 rounded-2xl">
-            <div className="flex items-center gap-1.5 text-emerald-400 mb-1">
+            <div className="flex items-center gap-1.5 text-indigo-400 mb-1">
               <TrendingUp className="w-4 h-4" />
-              <span className="text-xs font-bold text-slate-300">Avg Revenue ROI</span>
+              <span className="text-xs font-bold text-slate-300">Lead Dataset Size</span>
             </div>
-            <p className="text-lg font-extrabold text-emerald-400 font-mono">$32,500+</p>
-            <p className="text-[11px] text-slate-400">Average Revenue / $75 Batch</p>
+            <p className="text-lg font-extrabold text-white font-mono">150 Leads</p>
+            <p className="text-[11px] text-slate-400">Full Access Per $75 Order</p>
           </div>
         </div>
       </div>
@@ -227,7 +227,6 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ onOpenPurchaseModal })
               className="py-2.5 px-3 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-700 font-semibold focus:outline-hidden focus:ring-2 focus:ring-indigo-500 cursor-pointer"
             >
               <option value="newest">Sort: Newest First</option>
-              <option value="revenue">Sort: Highest Revenue Reported</option>
               <option value="leads">Sort: Most Leads Purchased</option>
             </select>
           </div>
@@ -319,9 +318,12 @@ export const ReviewsPage: React.FC<ReviewsPageProps> = ({ onOpenPurchaseModal })
               {/* Bottom Footer: ROI Metrics & Date */}
               <div className="mt-5 pt-3 border-t border-slate-100 space-y-2">
                 <div className="flex items-center justify-between text-[11px]">
-                  <span className="text-slate-500 font-medium">Batch: {review.leadsPurchased} Leads</span>
-                  <span className="font-mono font-extrabold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                    Revenue: {review.revenueGenerated}
+                  <span className="text-slate-600 font-semibold bg-slate-100 px-2.5 py-0.5 rounded border border-slate-200">
+                    Batch: {review.leadsPurchased} Verified Leads
+                  </span>
+                  <span className="font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 flex items-center gap-1">
+                    <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                    <span>Verified Purchase</span>
                   </span>
                 </div>
 
