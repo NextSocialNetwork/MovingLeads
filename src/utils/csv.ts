@@ -1,5 +1,20 @@
 import { MovingLead } from '../types';
 
+export function maskAddress(address: string | undefined): string {
+  if (!address) return '***';
+  const trimmed = address.trim();
+  const match = trimmed.match(/^(\d+[\w-]*)\s+(.*)$/);
+  if (match) {
+    const houseNum = match[1];
+    const rest = match[2];
+    const cleanRest = rest.replace(/\s+/g, ' ');
+    const threeChars = cleanRest.slice(0, 3);
+    return `${houseNum} ${threeChars}***`;
+  }
+  const threeChars = trimmed.slice(0, 3);
+  return `${threeChars}***`;
+}
+
 export function maskEmail(email: string | undefined): string {
   if (!email) return '•••••@••••.com';
   const parts = email.split('@');
@@ -15,7 +30,7 @@ export function convertLeadsToCSV(leads: MovingLead[]): string {
     'Lead ID',
     'Full Name',
     'Email (Protected)',
-    'Current Address',
+    'Current Address (Protected)',
     'City',
     'State',
     'ZIP Code',
@@ -43,7 +58,7 @@ export function convertLeadsToCSV(leads: MovingLead[]): string {
     escapeCSV(lead.id),
     escapeCSV(lead.fullName),
     escapeCSV(maskEmail(lead.email)),
-    escapeCSV(lead.currentAddress),
+    escapeCSV(maskAddress(lead.currentAddress)),
     escapeCSV(lead.city),
     escapeCSV(lead.state),
     escapeCSV(lead.zipCode),

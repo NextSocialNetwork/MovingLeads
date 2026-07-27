@@ -15,7 +15,7 @@ import {
   FileSpreadsheet
 } from 'lucide-react';
 import { MovingLead, OutreachStatus, LeadFilter } from '../types';
-import { maskEmail } from '../utils/csv';
+import { maskEmail, maskAddress } from '../utils/csv';
 
 interface LeadTableProps {
   leads: MovingLead[];
@@ -272,7 +272,7 @@ export const LeadTable: React.FC<LeadTableProps> = ({
                         </span>
                         <div>
                           <div className="text-slate-800 font-semibold">{lead.city}, {lead.state}</div>
-                          <div className="text-[10px] text-slate-400 truncate max-w-[140px]">{lead.currentAddress}</div>
+                          <div className="text-[10px] text-slate-400 truncate max-w-[140px] font-mono">{maskAddress(lead.currentAddress)}</div>
                         </div>
                       </div>
                     </td>

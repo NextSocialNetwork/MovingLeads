@@ -8,6 +8,7 @@ interface ZipClustersProps {
   onSelectLead: (lead: MovingLead) => void;
   onOpenPitch: (lead: MovingLead) => void;
   onOpenPurchaseModal?: (lead?: MovingLead | null) => void;
+  onFilterByZip?: (zip: string) => void;
 }
 
 interface ZipGroup {
@@ -19,7 +20,13 @@ interface ZipGroup {
   avgSqFt: number;
 }
 
-export const ZipClusters: React.FC<ZipClustersProps> = ({ leads, onSelectLead, onOpenPitch, onOpenPurchaseModal }) => {
+export const ZipClusters: React.FC<ZipClustersProps> = ({
+  leads,
+  onSelectLead,
+  onOpenPitch,
+  onOpenPurchaseModal,
+  onFilterByZip,
+}) => {
   const [expandedZip, setExpandedZip] = useState<string | null>(null);
 
   // Group leads by ZIP code
@@ -88,9 +95,14 @@ export const ZipClusters: React.FC<ZipClustersProps> = ({ leads, onSelectLead, o
               <div className="p-4 bg-slate-50 border-b border-slate-100 flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-sm font-bold bg-indigo-600 text-white px-2 py-0.5 rounded shadow-xs">
-                      ZIP {group.zipCode}
-                    </span>
+                    <button
+                      onClick={() => onFilterByZip?.(group.zipCode)}
+                      className="font-mono text-sm font-bold bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-0.5 rounded shadow-xs transition cursor-pointer flex items-center gap-1"
+                      title={`Filter table view by ZIP ${group.zipCode}`}
+                    >
+                      <MapPin className="w-3 h-3" />
+                      <span>ZIP {group.zipCode}</span>
+                    </button>
                     <span className="text-sm font-bold text-slate-900">
                       {group.city}, {group.state}
                     </span>

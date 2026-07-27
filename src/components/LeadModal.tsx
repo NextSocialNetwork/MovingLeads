@@ -18,7 +18,7 @@ import {
   Clock,
 } from 'lucide-react';
 import { MovingLead, OutreachStatus } from '../types';
-import { maskEmail } from '../utils/csv';
+import { maskEmail, maskAddress } from '../utils/csv';
 
 interface LeadModalProps {
   lead: MovingLead | null;
@@ -286,8 +286,8 @@ Are you free for 2 minutes to confirm your item inventory?"
                     </div>
                   ) : (
                     <div className="p-2 bg-slate-50 rounded-lg text-slate-800">
-                      <div>{lead.currentAddress}</div>
-                      <div className="font-semibold text-indigo-700">
+                      <div className="font-mono text-sm">{maskAddress(lead.currentAddress)}</div>
+                      <div className="font-semibold text-indigo-700 mt-0.5">
                         {lead.city}, {lead.state} <span className="font-mono bg-indigo-100 px-1 py-0.2 rounded ml-1">ZIP {lead.zipCode}</span>
                       </div>
                     </div>

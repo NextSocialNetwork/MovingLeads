@@ -71,22 +71,26 @@ export default function App() {
       .filter((lead) => {
         // Search query
         if (filter.search.trim()) {
-          const q = filter.search.toLowerCase().trim();
+          const rawQ = filter.search.toLowerCase().trim();
+          const cleanQ = rawQ.replace(/^zip:?\s*/i, '');
           const matches =
-            lead.fullName.toLowerCase().includes(q) ||
-            (lead.phone && lead.phone.includes(q)) ||
-            lead.zipCode.includes(q) ||
-            lead.city.toLowerCase().includes(q) ||
-            lead.state.toLowerCase().includes(q) ||
-            lead.destinationCity.toLowerCase().includes(q) ||
-            lead.notes.toLowerCase().includes(q);
+            lead.zipCode.toLowerCase().includes(cleanQ) ||
+            lead.fullName.toLowerCase().includes(rawQ) ||
+            (lead.phone && lead.phone.includes(rawQ)) ||
+            (lead.email && lead.email.toLowerCase().includes(rawQ)) ||
+            lead.city.toLowerCase().includes(rawQ) ||
+            lead.state.toLowerCase().includes(rawQ) ||
+            lead.destinationCity.toLowerCase().includes(rawQ) ||
+            lead.destinationState.toLowerCase().includes(rawQ) ||
+            lead.currentAddress.toLowerCase().includes(rawQ) ||
+            lead.notes.toLowerCase().includes(rawQ);
           if (!matches) return false;
         }
 
         // ZIP Code filter
         if (filter.zipCodePrefix.trim()) {
-          const zipQ = filter.zipCodePrefix.trim();
-          if (!lead.zipCode.startsWith(zipQ) && !lead.zipCode.includes(zipQ)) {
+          const zipQ = filter.zipCodePrefix.trim().toLowerCase();
+          if (!lead.zipCode.toLowerCase().includes(zipQ)) {
             return false;
           }
         }
@@ -209,6 +213,10 @@ export default function App() {
             onSelectLead={handleSelectLeadDetails}
             onOpenPitch={handleOpenPitch}
             onOpenPurchaseModal={handleOpenPurchaseModal}
+            onFilterByZip={(zip) => {
+              setFilter((prev) => ({ ...prev, zipCodePrefix: zip }));
+              setViewMode('table');
+            }}
           />
         )}
 
