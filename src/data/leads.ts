@@ -445,7 +445,7 @@ const RAW_LEADS: MovingLead[] = [
     status: 'New',
     estimatedTruckSize: '16 ft Truck',
     notes: 'Gated apartment complex in Dublin.',
-    estimatedValue: 1500
+    estimatedValue: 3000
   },
   {
     id: 'ML-1022',
@@ -1278,7 +1278,7 @@ const RAW_LEADS: MovingLead[] = [
     let sqFt = 850;
     let bedrooms = 1;
     let truck = '16 ft Truck';
-    let baseVal = 1500;
+    let baseVal = 3000;
 
     if (residenceType === 'Studio') {
       sqFt = 480 + (idx * 15) % 250;
