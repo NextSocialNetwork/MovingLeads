@@ -4,15 +4,18 @@ import { FiltersBar } from './components/FiltersBar';
 import { LeadTable } from './components/LeadTable';
 import { ZipClusters } from './components/ZipClusters';
 import { LeadStats } from './components/LeadStats';
+import { ReviewsPage } from './components/ReviewsPage';
 import { LeadModal } from './components/LeadModal';
 import { AddLeadModal } from './components/AddLeadModal';
+import { PurchaseModal } from './components/PurchaseModal';
+import { AiSupportChat } from './components/AiSupportChat';
 import { INITIAL_LEADS } from './data/leads';
 import { MovingLead, LeadFilter, OutreachStatus } from './types';
 
 export default function App() {
   const [leads, setLeads] = useState<MovingLead[]>(INITIAL_LEADS);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [viewMode, setViewMode] = useState<'table' | 'zip-clusters' | 'analytics'>('table');
+  const [viewMode, setViewMode] = useState<'table' | 'zip-clusters' | 'analytics' | 'reviews'>('table');
   const [copied, setCopied] = useState(false);
 
   // Filter state
@@ -32,6 +35,24 @@ export default function App() {
   const [selectedLead, setSelectedLead] = useState<MovingLead | null>(null);
   const [modalTab, setModalTab] = useState<'details' | 'ai-pitch'>('details');
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  // Purchase Modal State
+  const [isPurchaseModalOpen, setIsPurchaseModalOpen] = useState(false);
+  const [purchaseLeads, setPurchaseLeads] = useState<MovingLead[]>([]);
+
+  const handleOpenPurchaseModal = (lead?: MovingLead | MovingLead[] | null) => {
+    if (Array.isArray(lead) && lead.length > 0) {
+      setPurchaseLeads(lead);
+    } else if (lead && typeof lead === 'object' && 'id' in lead && typeof (lead as any).id === 'string') {
+      setPurchaseLeads([lead as MovingLead]);
+    } else if (selectedIds.length > 0) {
+      const selected = leads.filter((l) => selectedIds.includes(l.id));
+      setPurchaseLeads(selected);
+    } else {
+      setPurchaseLeads([]);
+    }
+    setIsPurchaseModalOpen(true);
+  };
 
   // Available dropdown options derived from dataset
   const availableStates = useMemo(() => {
@@ -153,6 +174,7 @@ export default function App() {
         onOpenAddModal={() => setIsAddModalOpen(true)}
         onCopySuccess={handleCopySuccess}
         copied={copied}
+        onOpenPurchaseModal={handleOpenPurchaseModal}
       />
 
       {/* Filter Toolbar */}
@@ -177,6 +199,7 @@ export default function App() {
             selectedIds={selectedIds}
             setSelectedIds={setSelectedIds}
             onOpenPitch={handleOpenPitch}
+            onOpenPurchaseModal={handleOpenPurchaseModal}
           />
         )}
 
@@ -185,10 +208,13 @@ export default function App() {
             leads={filteredLeads}
             onSelectLead={handleSelectLeadDetails}
             onOpenPitch={handleOpenPitch}
+            onOpenPurchaseModal={handleOpenPurchaseModal}
           />
         )}
 
         {viewMode === 'analytics' && <LeadStats leads={filteredLeads} />}
+
+        {viewMode === 'reviews' && <ReviewsPage onOpenPurchaseModal={handleOpenPurchaseModal} />}
       </main>
 
       {/* Footer */}
@@ -196,39 +222,53 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
           <div>
             Moving Leads For Sale (MovingLeadsForSale.Org) • <strong className="text-slate-700">{leads.length} Verified USA Leads (All 50 States)</strong>
+            <p className="text-[11px] text-slate-400 mt-1">All purchased leads will be emailed to you within 24 to 48 hours after payment completion.</p>
           </div>
           <div className="flex items-center gap-2 text-slate-500">
             <span>Direct Purchase ($75):</span>
-            <a
-              href="https://Cash.App/$Movers312"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[#00B82B] font-bold hover:underline font-mono"
+            <button
+              onClick={() => handleOpenPurchaseModal(null)}
+              className="text-[#00B82B] font-bold hover:underline font-mono cursor-pointer"
             >
               https://Cash.App/$Movers312
-            </a>
+            </button>
           </div>
         </div>
       </footer>
 
       {/* Sticky Mobile/Desktop Cash App Purchase Bar */}
-      <div className="fixed bottom-0 inset-x-0 bg-slate-900 text-white py-2.5 px-4 z-40 shadow-xl border-t border-slate-800 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <span className="w-6 h-6 rounded bg-[#00D632] text-white font-mono font-black text-xs flex items-center justify-center">$</span>
-          <span className="text-xs font-semibold text-slate-200">
-            Order Complete Dataset ({leads.length} Leads in 50 States): <span className="text-[#00D632] font-mono font-bold">$75 via $Movers312</span>
+      <div className="fixed bottom-0 inset-x-0 bg-slate-900 text-white py-2.5 px-4 z-40 shadow-xl border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+          <div className="flex items-center gap-2">
+            <span className="w-6 h-6 rounded bg-[#00D632] text-white font-mono font-black text-xs flex items-center justify-center">$</span>
+            <span className="text-xs font-semibold text-slate-200">
+              {selectedIds.length > 0 ? (
+                <span>
+                  Order Selected Leads ({selectedIds.length} Leads): <span className="text-[#00D632] font-mono font-bold">${selectedIds.length * 75} via $Movers312</span>
+                </span>
+              ) : (
+                <span>
+                  Order Complete Dataset ({leads.length} Leads in 50 States): <span className="text-[#00D632] font-mono font-bold">$75 via $Movers312</span>
+                </span>
+              )}
+            </span>
+          </div>
+          <span className="text-[11px] text-amber-300 font-medium">
+            (Leads emailed within 24 to 48 hours after payment)
           </span>
         </div>
-        <a
-          href="https://Cash.App/$Movers312"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          onClick={() => handleOpenPurchaseModal(null)}
           id="btn-sticky-cashapp"
           className="px-3.5 py-1.5 bg-[#00D632] hover:bg-[#00B82B] text-white rounded-md text-xs font-bold transition shadow-sm whitespace-nowrap cursor-pointer border border-[#00C22B] flex items-center gap-1"
         >
           <span className="font-mono text-xs">$</span>
-          <span>Cash App Direct Order ($75)</span>
-        </a>
+          <span>
+            {selectedIds.length > 0
+              ? `Cash App Order (${selectedIds.length} Leads - $${selectedIds.length * 75})`
+              : 'Cash App Direct Order ($75)'}
+          </span>
+        </button>
       </div>
 
       {/* Lead Detail & AI Call Pitch Drawer/Modal */}
@@ -238,6 +278,7 @@ export default function App() {
           initialTab={modalTab}
           onClose={() => setSelectedLead(null)}
           onUpdateLead={handleUpdateLead}
+          onOpenPurchaseModal={handleOpenPurchaseModal}
         />
       )}
 
@@ -248,6 +289,16 @@ export default function App() {
         onAddLead={handleAddLead}
         existingCount={leads.length}
       />
+
+      {/* Cash App Purchase Modal */}
+      <PurchaseModal
+        isOpen={isPurchaseModalOpen}
+        onClose={() => setIsPurchaseModalOpen(false)}
+        selectedLeads={purchaseLeads}
+      />
+
+      {/* 24/7 AI Support Chat Widget */}
+      <AiSupportChat />
     </div>
   );
 }

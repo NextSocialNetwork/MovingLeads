@@ -7,6 +7,7 @@ interface ZipClustersProps {
   leads: MovingLead[];
   onSelectLead: (lead: MovingLead) => void;
   onOpenPitch: (lead: MovingLead) => void;
+  onOpenPurchaseModal?: (lead?: MovingLead | null) => void;
 }
 
 interface ZipGroup {
@@ -18,7 +19,7 @@ interface ZipGroup {
   avgSqFt: number;
 }
 
-export const ZipClusters: React.FC<ZipClustersProps> = ({ leads, onSelectLead, onOpenPitch }) => {
+export const ZipClusters: React.FC<ZipClustersProps> = ({ leads, onSelectLead, onOpenPitch, onOpenPurchaseModal }) => {
   const [expandedZip, setExpandedZip] = useState<string | null>(null);
 
   // Group leads by ZIP code
@@ -125,12 +126,14 @@ export const ZipClusters: React.FC<ZipClustersProps> = ({ leads, onSelectLead, o
                   >
                     <div>
                       <div className="font-semibold text-xs text-slate-900 flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" title="Active Lead" />
                         <span>{lead.fullName}</span>
                         <span className="text-[10px] px-1.5 py-0.2 rounded bg-slate-100 text-slate-600">
                           {lead.sqFt} sq ft
                         </span>
                       </div>
                       <div className="text-[11px] text-slate-500 mt-0.5 flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0" />
                         <span className="font-mono text-slate-500">{maskEmail(lead.email)}</span>
                         <span>•</span>
                         <span>Move: {lead.moveDate}</span>
@@ -148,17 +151,17 @@ export const ZipClusters: React.FC<ZipClustersProps> = ({ leads, onSelectLead, o
                       >
                         <Sparkles className="w-3.5 h-3.5" />
                       </button>
-                      <a
-                        href="https://Cash.App/$Movers312"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onOpenPurchaseModal?.(lead);
+                        }}
                         className="p-1 px-2 rounded bg-[#00D632] hover:bg-[#00B82B] text-white font-extrabold text-[10px] cursor-pointer inline-flex items-center gap-0.5 shadow-2xs border border-[#00C22B]"
                         title="Buy Lead for $75 via Cash App $Movers312"
                       >
                         <span className="font-mono font-black text-xs">$</span>
                         <span>$75 Buy</span>
-                      </a>
+                      </button>
                     </div>
                   </div>
                 ))}

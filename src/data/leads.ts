@@ -1147,8 +1147,8 @@ const RAW_LEADS: MovingLead[] = [
     estimatedValue: 3000
   },
 
-  // Expansion of 1349 additional realistic leads across all 50 US States to complete full set of 1400 leads
-  ...Array.from({ length: 1349 }).map((_, idx) => {
+  // Expansion of 1849 additional realistic leads across all 50 US States to complete full set of 1900 leads
+  ...Array.from({ length: 1849 }).map((_, idx) => {
     const leadNum = 1055 + idx; // ML-1055 to ML-2404
     const sampleCities = [
       { city: 'Birmingham', state: 'AL', zip: '35203', region: 'AL' },

@@ -1,16 +1,17 @@
 import React from 'react';
-import { Download, Copy, Plus, MapPin, Table, BarChart3, Check, Sparkles, Truck } from 'lucide-react';
+import { Download, Copy, Plus, MapPin, Table, BarChart3, Check, Sparkles, Truck, Clock, Star } from 'lucide-react';
 import { MovingLead } from '../types';
 import { convertLeadsToCSV, downloadCSV } from '../utils/csv';
 
 interface HeaderProps {
   leads: MovingLead[];
   filteredCount: number;
-  viewMode: 'table' | 'zip-clusters' | 'analytics';
-  setViewMode: (mode: 'table' | 'zip-clusters' | 'analytics') => void;
+  viewMode: 'table' | 'zip-clusters' | 'analytics' | 'reviews';
+  setViewMode: (mode: 'table' | 'zip-clusters' | 'analytics' | 'reviews') => void;
   onOpenAddModal: () => void;
   onCopySuccess: () => void;
   copied: boolean;
+  onOpenPurchaseModal: (lead?: MovingLead | null) => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -21,6 +22,7 @@ export const Header: React.FC<HeaderProps> = ({
   onOpenAddModal,
   onCopySuccess,
   copied,
+  onOpenPurchaseModal,
 }) => {
   const handleDownloadCSV = () => {
     const csvData = convertLeadsToCSV(leads);
@@ -59,17 +61,15 @@ export const Header: React.FC<HeaderProps> = ({
           </div>
 
           <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-            <a
-              href="https://Cash.App/$Movers312"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => onOpenPurchaseModal(null)}
               id="btn-cashapp-purchase-header"
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md text-xs font-bold bg-[#00D632] hover:bg-[#00B82B] text-white shadow-sm transition-all cursor-pointer border border-[#00C22B]"
               title="Direct Lead Purchase ($75) via Cash App $Movers312"
             >
               <span className="font-mono text-sm font-extrabold">$</span>
               <span>Cash App Purchase ($75 - $Movers312)</span>
-            </a>
+            </button>
 
             <button
               id="btn-copy-csv"
@@ -108,6 +108,12 @@ export const Header: React.FC<HeaderProps> = ({
               <span className="hidden sm:inline">Add Lead</span>
             </button>
           </div>
+        </div>
+
+        {/* Lead Delivery Notice Banner */}
+        <div className="mt-3 bg-amber-50 border border-amber-200/80 rounded-lg px-3.5 py-2 flex items-center gap-2 text-xs text-amber-900 font-medium">
+          <Clock className="w-4 h-4 text-amber-600 shrink-0" />
+          <span><strong>Notice:</strong> All purchased leads will be emailed to you within 24 to 48 hours after payment completion.</span>
         </div>
 
         {/* Bottom row: Quick stats & View mode switcher */}
@@ -167,6 +173,19 @@ export const Header: React.FC<HeaderProps> = ({
             >
               <BarChart3 className="w-3.5 h-3.5" />
               <span>Analytics & Summary</span>
+            </button>
+
+            <button
+              id="view-mode-reviews"
+              onClick={() => setViewMode('reviews')}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-semibold transition-colors cursor-pointer ${
+                viewMode === 'reviews'
+                  ? 'bg-indigo-600 text-white shadow-sm'
+                  : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
+              <span>Reviews (100)</span>
             </button>
           </div>
         </div>

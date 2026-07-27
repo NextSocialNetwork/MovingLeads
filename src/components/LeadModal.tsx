@@ -15,6 +15,7 @@ import {
   DollarSign,
   Send,
   Loader2,
+  Clock,
 } from 'lucide-react';
 import { MovingLead, OutreachStatus } from '../types';
 import { maskEmail } from '../utils/csv';
@@ -24,6 +25,7 @@ interface LeadModalProps {
   onClose: () => void;
   onUpdateLead: (updated: MovingLead) => void;
   initialTab?: 'details' | 'ai-pitch';
+  onOpenPurchaseModal?: (lead: MovingLead) => void;
 }
 
 export const LeadModal: React.FC<LeadModalProps> = ({
@@ -31,6 +33,7 @@ export const LeadModal: React.FC<LeadModalProps> = ({
   onClose,
   onUpdateLead,
   initialTab = 'details',
+  onOpenPurchaseModal,
 }) => {
   if (!lead) return null;
 
@@ -103,6 +106,7 @@ Are you free for 2 minutes to confirm your item inventory?"
             </div>
             <div>
               <h2 className="text-lg font-bold flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0 shadow-xs" title="Verified Active Lead" />
                 <span>{lead.fullName}</span>
                 <span className="text-xs bg-indigo-500/20 text-indigo-300 px-2 py-0.5 rounded border border-indigo-500/30">
                   {lead.id}
@@ -154,19 +158,23 @@ Are you free for 2 minutes to confirm your item inventory?"
         <div className="p-6 overflow-y-auto space-y-5 flex-1 text-xs">
           {activeTab === 'details' ? (
             <div className="space-y-4">
+              {/* Delivery Notice Banner */}
+              <div className="p-2.5 bg-amber-50 border border-amber-200 text-amber-900 rounded-xl text-xs flex items-center gap-2">
+                <Clock className="w-4 h-4 text-amber-600 shrink-0" />
+                <span><strong>Delivery Notice:</strong> All purchased leads will be emailed to you within 24 to 48 hours after payment completion.</span>
+              </div>
+
               {/* Top Quick Actions */}
               <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex flex-wrap items-center gap-2">
-                  <a
-                    href="https://Cash.App/$Movers312"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={() => onOpenPurchaseModal?.(lead)}
                     className="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-[#00D632] hover:bg-[#00B82B] text-white rounded-lg font-bold transition shadow-xs cursor-pointer border border-[#00C22B]"
                     title="Buy this lead for $75 via Cash App $Movers312"
                   >
                     <span className="font-mono text-sm font-black">$</span>
                     <span>Purchase Lead ($75 via Cash App $Movers312)</span>
-                  </a>
+                  </button>
                   <a
                     href={`mailto:${lead.email}`}
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-800 rounded-lg font-medium transition cursor-pointer"
@@ -209,7 +217,10 @@ Are you free for 2 minutes to confirm your item inventory?"
                       className="w-full p-2 border border-slate-300 rounded-lg bg-white"
                     />
                   ) : (
-                    <div className="p-2 bg-slate-50 rounded-lg text-slate-800 font-bold">{lead.fullName}</div>
+                    <div className="p-2 bg-slate-50 rounded-lg text-slate-800 font-bold flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                      <span>{lead.fullName}</span>
+                    </div>
                   )}
                 </div>
 
@@ -226,7 +237,10 @@ Are you free for 2 minutes to confirm your item inventory?"
                     />
                   ) : (
                     <div className="p-2 bg-slate-50 rounded-lg text-slate-800 font-mono font-semibold flex items-center justify-between">
-                      <span>{maskEmail(lead.email)}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                        <span>{maskEmail(lead.email)}</span>
+                      </div>
                       <span className="text-[10px] text-amber-800 bg-amber-100 px-2 py-0.5 rounded font-sans font-bold border border-amber-200">
                         Protected - $75 to Unlock
                       </span>
