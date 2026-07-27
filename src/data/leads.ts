@@ -1373,9 +1373,9 @@ const RAW_LEADS: MovingLead[] = [
 ];
 
 export const INITIAL_LEADS: MovingLead[] = RAW_LEADS.map(lead => {
-  // Map sqFt (or existing value) smoothly into $1,500 - $3,000 range
+  // Map sqFt (or existing value) smoothly starting from $3,000+ base range
   const ratio = Math.min(1, Math.max(0, (lead.sqFt - 500) / 4000));
-  const estimatedValue = Math.min(3000, Math.max(1500, 1500 + Math.round((ratio * 1500) / 25) * 25));
+  const estimatedValue = Math.max(3000, 3000 + Math.round((ratio * 3000) / 25) * 25);
 
   return {
     ...lead,

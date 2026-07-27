@@ -51,7 +51,7 @@ export const AddLeadModal: React.FC<AddLeadModalProps> = ({
       destinationCity: formData.destinationCity.trim() || finalCity,
       destinationState: formData.destinationState.trim() || finalState,
       estimatedTruckSize: formData.sqFt > 2000 ? '24 ft Truck' : formData.sqFt > 1000 ? '16 ft Truck' : '12 ft Van',
-      estimatedValue: Math.min(3000, Math.max(1500, Math.round(1500 + (Math.min(1, Math.max(0, (formData.sqFt - 500) / 4000)) * 1500)))),
+      estimatedValue: Math.max(3000, Math.round(3000 + (Math.min(1, Math.max(0, (formData.sqFt - 500) / 4000)) * 2000))),
     };
 
     onAddLead(newLead);
