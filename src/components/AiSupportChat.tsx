@@ -180,7 +180,7 @@ export const AiSupportChat: React.FC = () => {
   return (
     <>
       {/* Floating Widget Launcher Button */}
-      <div className="fixed bottom-16 right-4 sm:bottom-6 sm:right-6 z-50">
+      <div className="fixed bottom-24 right-4 sm:bottom-18 sm:right-6 z-50">
         <button
           onClick={() => setIsOpen(!isOpen)}
           className="relative group px-5 py-3.5 bg-gradient-to-r from-emerald-500 via-emerald-600 to-green-600 hover:from-emerald-400 hover:to-green-500 text-white font-extrabold text-sm sm:text-base rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-emerald-300/40 cursor-pointer flex items-center gap-2.5"
@@ -210,7 +210,7 @@ export const AiSupportChat: React.FC = () => {
 
       {/* Floating Chat Box Panel */}
       {isOpen && (
-        <div className="fixed bottom-24 right-4 sm:bottom-20 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 h-[500px] max-h-[80vh] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden animate-fade-in">
+        <div className="fixed bottom-38 right-4 sm:bottom-32 sm:right-6 z-50 w-[calc(100vw-2rem)] sm:w-96 h-[500px] max-h-[75vh] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden animate-fade-in">
           {/* Chat Header */}
           <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white p-4 flex items-center justify-between border-b border-slate-800 shrink-0">
             <div className="flex items-center gap-3">
